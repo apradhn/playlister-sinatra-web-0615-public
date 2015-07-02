@@ -1,9 +1,11 @@
 module Slugifiable
 
   module ClassMethods
+    include Titleize
+    Titleize::SMALL_WORDS << "with"
 
     def find_by_slug(slug)
-      unslug = slug.split("-").collect{|word| word.capitalize}.join(" ")
+      unslug = slug.split("-").join(" ").titleize
       self.find_by(name: unslug)
     end
 
