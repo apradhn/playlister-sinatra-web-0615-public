@@ -1,4 +1,5 @@
 class SongsController < ApplicationController
+  enable :sessions
 
   get '/songs' do 
     @songs = Song.all
@@ -19,6 +20,8 @@ class SongsController < ApplicationController
   get '/songs/:slug' do
     slug = params[:slug]
     @song = Song.find_by_slug(slug)
+    @message = session[:message]
+    session[:message] = ""
     erb :'/songs/show'
   end
 
@@ -32,11 +35,13 @@ class SongsController < ApplicationController
 
   patch '/songs/:slug' do
     song = Song.find_by_slug(params[:slug])
-    song = Song.new(params[:song])
-    song.artist = params[:artist]
-    song.genres << params[:genre]
+    artist = Artist.find_or_create_by(params[:artist])
+    genres = params[:genre].keys.collect{|genre_id| Genre.find(genre_id)}
+    song.artist = artist
+    song.genres = genres
     song.save
-
+    session["message"] = "Song successfully updated."
+    redirect "/songs/#{song.slug}"
   end
 
 end
