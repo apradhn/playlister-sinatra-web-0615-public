@@ -1,0 +1,26 @@
+<div class="col-md-6">
+  <h2>New Song</h2>
+  <form action="/songs" method="POST">
+    <div class="form-group">
+      Song Name
+      <input type="text" id="Name" name="song[name]" class="form-control">
+    </div>
+
+    <div class="form-group">
+      Artist Name
+      <input type="text" name="artist[name]" id="Artist Name" class="form-control">
+    </div>    
+
+    <% @genres.each do |genre|%>
+    <div class="checkbox">
+      <label for="genre">
+        <input type="checkbox" class="checkbox" name="genre[name]">
+        <%= genre.name %>
+        </label>
+      </div>
+
+    <% end %>
+
+    <input type="submit" class="btn btn-default" value="Create">
+  </form>
+</div>
