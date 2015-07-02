@@ -12,6 +12,7 @@ class SongsController < ApplicationController
 
   get '/songs/:slug/edit' do
     @song = Song.find_by_slug(params[:slug])
+    @genres = Genre.all
     erb :'/songs/edit'
   end
 
@@ -30,7 +31,6 @@ class SongsController < ApplicationController
   end
 
   patch '/songs/:slug' do
-    binding.pry
     song = Song.find_by_slug(params[:slug])
     song = Song.new(params[:song])
     song.artist = params[:artist]
